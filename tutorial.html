@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  hr {
+    background-color: aliceblue;
+    height: 2px;
+    border: 0;
+  }
+  img {
+    vertical-align: middle;
+    display: block; /* 이미지가 inline 요소일 경우 상하 여백이 생기는 것을 방지 */
+    margin: 0 auto; /* 이미지를 가운데 정렬 */
+  }
+  a {
+    margin: 8px 8px;
+  }
+  .gallery-container {
+    background-color: rgb(197, 197, 197);
+    background-position: center;
+    margin: 0px 200px 0px 200px;
+    overflow: hidden; /* 넘치는 이미지 숨기기 */
+    position: relative;
+    height: 400px; /* 적절한 높이 설정 */
+  }
+
+  /* 이미지 슬라이드 스타일 */
+  .gallery {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%; /* 부모 요소(.gallery-container) 높이와 맞추기 */
+  }
+
+  .gallery img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지 */
+  }
+
+  /* 하단 버튼 컨테이너 스타일 */
+  .button-container {
+    margin-top: 20px; /* 갤러리와의 간격 설정 */
+    text-align: center;
+  }
+
+  /* 버튼 스타일 */
+  .btn {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px; /* 버튼 사이의 간격 설정 */
+  }
+
+  .btn-prev {
+  }
+
+  .btn-next {
+  }
+</style>
+<title>Document</title>
+</head>
+
+<body style="text-align: center; background-color: rgb(83, 83, 83);">
+
+  <header>
+    <div><h1>Tower, Card, Grave</h1></div>
+  </header>
+
+  <hr style="color: rgb(92, 47, 255);">
+  <br/>
+
+  <main>
+    <div style="background-color: rgb(197, 197, 197); background-position: center; margin: 0px 200px 0px 200px;">
+      <br/>
+      <div class="gallery-container">
+        <div class="gallery">
+          <img src="https://via.placeholder.com/600x400?text=Image+1" alt="Image 1">
+          <img src="https://via.placeholder.com/600x400?text=Image+2" alt="Image 2">
+          <img src="https://via.placeholder.com/600x400?text=Image+3" alt="Image 3">
+          <img src="https://via.placeholder.com/600x400?text=Image+4" alt="Image 4">
+        </div>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-prev" onclick="prevImage()">&#8249; 이전</button>
+        <button class="btn btn-next" onclick="nextImage()">다음 &#8250;</button>
+      </div>
+      <br/>
+      <br/>
+    </div>
+  </main>
+
+  <script>
+    // JavaScript로 이미지 변경 기능 구현
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.gallery img');
+    const totalImages = images.length;
+    const prevBtn = document.querySelector('.btn-prev');
+    const nextBtn = document.querySelector('.btn-next');
+
+    function showImage(index) {
+      images.forEach((img, idx) => {
+        if (idx === index) {
+          img.style.display = 'block';
+        } else {
+          img.style.display = 'none';
+        }
+      });
+
+      // 이전 버튼과 다음 버튼 상태 업데이트
+      if (index === 0) {
+        prevBtn.style.display = 'none'; // 맨 처음 이미지일 때 이전 버튼 숨김
+      } else {
+        prevBtn.style.display = 'inline-block'; // 이전 버튼을 다시 보이게 설정
+      }
+
+      if (index === totalImages - 1) {
+        nextBtn.innerHTML = 'Now Start'; // 맨 마지막 이미지일 때 다음 버튼 내용 변경
+        nextBtn.onclick = function() {
+          // 링크 삽입할 동작 정의
+          window.location.href = './newbattlet.html';
+        };
+      } else {
+        nextBtn.innerHTML = '다음 &#8250;'; // 다음 버튼 원래 내용으로 변경
+        nextBtn.onclick = nextImage;
+      }
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % totalImages;
+      showImage(currentIndex);
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+      showImage(currentIndex);
+    }
+
+    // 초기 첫 번째 이미지 표시
+    showImage(currentIndex);
+  </script>
+
+</body>
+</html>
